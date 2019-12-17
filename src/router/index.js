@@ -169,7 +169,25 @@ export const asyncRoutes = [
           title: '信息预警',
           icon: 'lock'
         }
-      }
+      },
+    ]
+
+  },
+  {
+    path: '/device',
+    component: Layout,
+    redirect: '/device/deviceService',
+    name: 'warning',
+    children: [
+      {
+        path: 'warn',
+        component: () => import('@/views/device/deviceService'),
+        name: 'warn',
+        meta: {
+          title: '设备信息',
+          icon: 'lock'
+        }
+      },
     ]
 
   },
