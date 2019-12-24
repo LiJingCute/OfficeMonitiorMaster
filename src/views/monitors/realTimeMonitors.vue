@@ -4,30 +4,41 @@
       <el-row :gutter="12">
         <el-col :span="6">
           <el-card shadow="hover">
-            实时用电量
+            实时用电量<br/>
+            <p1>
+              {{rtiEQuantity}}
+            </p1>
           </el-card>
         </el-col>
         <el-col :span="6">
           <el-card shadow="hover">
-            实时用水量
-            
+            实时用水量<br/>
+            <p1>
+              {{rtiWQuantity}}
+            </p1>
           </el-card>
         </el-col>
         <el-col :span="6">
           <el-card shadow="hover">
-            剩余额度
+            剩余额度<br/>
+            <p1>
+              {{rtiQuota}}
+            </p1>
           </el-card>
         </el-col>
         <el-col :span="6">
           <el-card shadow="hover">
-            当月电费
+            当月电费<br/>
+            <p1>
+              {{rtiEFees}}
+            </p1>
           </el-card>
         </el-col>
       </el-row>
     </div>
     <!-- 折线图 -->
     <div class="chart1">
-        <div id="myChart" :style="{width: '900px', height: '500px'}"></div>
+        <div id="myChart" :style="{width: '700px', height: '500px'}"></div>
    
         <div class="table">
               <h3>设备能耗</h3>
@@ -38,22 +49,22 @@
                 <el-table-column
                   prop="device"
                   label="设备"
-                  width="150">
+                  width="130">
                 </el-table-column>
                 <el-table-column
                   prop="i"
                   label="电流"
-                  width="150">
+                  width="130">
                 </el-table-column>
                 <el-table-column
                   prop="electricity"
                   label="电压"
-                  width="150">
+                  width="130">
                 </el-table-column>
                 <el-table-column
                   prop="water"
                   label="用水"
-                  width="150">  
+                  width="130">  
                 </el-table-column>
               </el-table>
         </div>
@@ -62,25 +73,35 @@
 </template>
 
 <script>
+import {mapState,mapActions} from 'vuex'
 export default {
-    name: 'test1',
     data () {
       return {
         map: null
       }
     },
+    computed:{
+         ...mapState('realTimeMonitors',['rtiEQuantity','rtiWQuantity','rtiQuota','rtiEFees','rtiChars','rtiTable']),
+        
+    },
+    created(){
+            this.getRtiInformation();
+            this.getRtiEnergy();
+            this.getRtiWater();
+    },
     mounted () {
       let that = this
-      this.drawLine();
+      this.drawLine(this.ritChars);
     },
     methods:{
-      drawLine(){
+      ...mapActions('realTimeMonitors',['getRtiInformation','getRtiEnergy','getRtiWater']),
+      drawLine(data){
         // 基于准备好的dom，初始化echarts实例
         let myChart = this.$echarts.init(document.getElementById('myChart'))
         // 绘制图表
         var option = {
               title: {
-        text: '实时信息'
+              text: '实时信息'
     },
     tooltip: {
         trigger: 'axis'
@@ -90,7 +111,6 @@ export default {
     },
     grid: {
         left: '3%',
-        right: '4%',
         bottom: '3%',
         containLabel: true
     },
@@ -142,25 +162,43 @@ export default {
 </script>
 
 <style scoped>
-.realTime{
-    background-color: rgba(255, 255, 255, 0.884);
-    border-radius:5px;
-    padding: 1em;
+body{
+    margin:0;
+		padding:0;
+		font-family:"Microsoft YaHe",微软雅黑;
+		background-color:#888888;
+		min-width:1200px;
+}
+.title{
+	margin-top: 20px;
+	margin-left: 35px;
+  margin-right: 15px;
 }
 .chart1{
-  margin-top: 2em;
- 
+	margin-top: 50px;
 }
 #myChart{
- float: left;
+	background-color: white;
+	border-radius: 10px; 
+	float: left;
+	margin-left:35px;
+	box-shadow: 10px 10px 5px #888888;
 }
 .table{
-  float: left; 
-  size: "small"; 
-  margin-left: 2em;
- 
+  width: 40%;
+	background-color: white;
+	border-radius: 10px; 
+	float: right;
+	margin-right: 30px;
+	box-shadow: 10px 10px 5px #888888;
 }
 .el-card{
-  background-color: rgba(63, 128, 193, 0.5);
+	font-size: 25px;
+	text-align: center;
+	background-color: white;
+	border: 3px solid #F2F2F2;
+  border-radius: 10px;
+	padding: 30px;
+  box-shadow: 5px 5px 5px #888888;
 }
 </style>
