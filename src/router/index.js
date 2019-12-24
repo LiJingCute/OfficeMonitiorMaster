@@ -177,12 +177,12 @@ export const asyncRoutes = [
     path: '/device',
     component: Layout,
     redirect: '/device/deviceService',
-    name: 'warning',
+    name: 'deviceService',
     children: [
       {
-        path: 'warn',
+        path: 'deviceService',
         component: () => import('@/views/device/deviceService'),
-        name: 'warn',
+        name: 'deviceService',
         meta: {
           title: '设备信息',
           icon: 'lock'

@@ -1,11 +1,11 @@
 import axios from 'axios'
 import qs from 'qs'
-import { Toast } from 'vant'
+// import { Toast } from 'vant'
 
 // 全局配置
 // axios.defaults.headers.common["token"] = ""
 // axios.defaults.headers.post["Content-Type"] = 'application/x-www-form-urlencoded;charset=UTF-8';
-axios.defaults.baseURL = 'http://localhost:16666s'
+axios.defaults.baseURL = 'http://localhost:16666'
 
 // Add a response interceptor
 axios.interceptors.response.use(function(response) {
