@@ -8,7 +8,7 @@
            
         <el-button type="primary" @click="dialogTableVisible = true" class="chaxun">查询日志</el-button>
         <el-dialog title="日志详情" :visible.sync="dialogTableVisible">
-          <el-button type="primary" class="xiazai">下载日志</el-button>
+          <el-button type="primary" class="xiazai"  @click="bb"  >下载日志</el-button>
             <el-table
               :data="warnTable"
               height="250"
@@ -67,8 +67,10 @@ import {mapState,mapActions} from 'vuex'
        mounted () {
             let that = this
             console.log(this.warnChars)
+            console.log(this.data.wada)
             this.drawLine1(this.warnChars);
         },
+        
         methods:{ 
           ...mapActions('warn',['findWarnNum','getWarnMsg','getChars','getToday']),
           drawLine1(data){
@@ -81,13 +83,13 @@ import {mapState,mapActions} from 'vuex'
                 },
                 xAxis: {
                     type: 'category',
-                    data: ['Mon', 'Tue', 'Wed']
+                    data: data.wada
                 },
                 yAxis: {
                     type: 'value'
                 },
                 series: [{
-                    data: data,
+                    data: data.count,
                     type: 'bar'
                 }]
             };
