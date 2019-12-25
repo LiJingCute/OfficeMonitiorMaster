@@ -81,20 +81,26 @@ export default {
       }
     },
     computed:{
-         ...mapState('realTimeMonitors',['rtiEQuantity','rtiWQuantity','rtiQuota','rtiEFees','rtiChars','rtiTable']),
+         ...mapState('realTimeMonitors',['rtiEQuantity','rtiWQuantity','rtiQuota','rtiEFees','rtiEChart1','rtiEChart2',
+                                          'rtiEChart3','rtiWChart','rtiTableEl1','rtiTableEl2','rtiTableEl3','rtiTableEl',
+                                          'rtiTableEnums1','rtiTableEnums2','rtiTableEnums3','rtiTableEnums','rtiTableEv1',
+                                          'rtiTableEv2','rtiTableEv3','rtiTableEv','rtiTableWater']),
         
     },
     created(){
-            this.getRtiInformation();
-            this.getRtiEnergy();
+            this.getRti();
+            this.getRtiEnergy1();
+            this.getRtiEnergy2();
+            this.getRtiEnergy3();
             this.getRtiWater();
+            this.getRtiInformation();
     },
     mounted () {
       let that = this
       this.drawLine(this.ritChars);
     },
     methods:{
-      ...mapActions('realTimeMonitors',['getRtiInformation','getRtiEnergy','getRtiWater']),
+      ...mapActions('realTimeMonitors',['getRtiInformation','getRtiEnergy1','getRtiEnergy2','getRtiEnergy3','getRtiWater','getRti']),
       drawLine(data){
         // 基于准备好的dom，初始化echarts实例
         let myChart = this.$echarts.init(document.getElementById('myChart'))
@@ -166,9 +172,10 @@ body{
     margin:0;
 		padding:0;
 		font-family:"Microsoft YaHe",微软雅黑;
-		background-color:#888888;
+		background-color:rebeccapurple;
 		min-width:1200px;
 }
+
 .title{
 	margin-top: 20px;
 	margin-left: 35px;
@@ -189,11 +196,11 @@ body{
 	background-color: white;
 	border-radius: 10px; 
 	float: right;
-	margin-right: 30px;
+	margin-right: 20px;
 	box-shadow: 10px 10px 5px #888888;
 }
 .el-card{
-	font-size: 25px;
+	font-size: 26px;
 	text-align: center;
 	background-color: white;
 	border: 3px solid #F2F2F2;
