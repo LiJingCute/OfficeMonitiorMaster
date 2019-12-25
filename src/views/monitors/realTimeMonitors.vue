@@ -43,21 +43,26 @@
         <div class="table">
               <h3>设备能耗</h3>
               <el-table
-                :data="tableData"
+                :data="rtiTable"
                 border
                 style="width: 100%">
                 <el-table-column
-                  prop="device"
+                  prop="name"
                   label="设备"
                   width="130">
                 </el-table-column>
                 <el-table-column
-                  prop="i"
+                  prop="eliang"
+                  label="电量"
+                  width="130">
+                </el-table-column>
+                <el-table-column
+                  prop="enums"
                   label="电流"
                   width="130">
                 </el-table-column>
                 <el-table-column
-                  prop="electricity"
+                  prop="voltage"
                   label="电压"
                   width="130">
                 </el-table-column>
@@ -82,9 +87,7 @@ export default {
     },
     computed:{
          ...mapState('realTimeMonitors',['rtiEQuantity','rtiWQuantity','rtiQuota','rtiEFees','rtiEChart1','rtiEChart2',
-                                          'rtiEChart3','rtiWChart','rtiTableEl1','rtiTableEl2','rtiTableEl3','rtiTableEl',
-                                          'rtiTableEnums1','rtiTableEnums2','rtiTableEnums3','rtiTableEnums','rtiTableEv1',
-                                          'rtiTableEv2','rtiTableEv3','rtiTableEv','rtiTableWater']),
+                                          'rtiEChart3','rtiWChart','rtiTable']),
         
     },
     created(){
@@ -97,11 +100,11 @@ export default {
     },
     mounted () {
       let that = this
-      this.drawLine(this.ritChars);
+      this.drawLine(this.rtiEChart1,this.rtiEChart2,this.rtiEChart3,this.rtiWChart);
     },
     methods:{
       ...mapActions('realTimeMonitors',['getRtiInformation','getRtiEnergy1','getRtiEnergy2','getRtiEnergy3','getRtiWater','getRti']),
-      drawLine(data){
+      drawLine(data1,data2,data3,data4){
         // 基于准备好的dom，初始化echarts实例
         let myChart = this.$echarts.init(document.getElementById('myChart'))
         // 绘制图表
@@ -138,25 +141,25 @@ export default {
             name:'电表一',
             type:'line',
             stack: '总量',
-            data:[120, 132, 101, 134, 90, 230, 210,230,140,110]
+            data:data1
         },
         {
             name:'电表二',
             type:'line',
             stack: '总量',
-            data:[220, 182, 191, 234, 290, 330, 310,150,162,213]
+            data:data2
         },
         {
             name:'电表三',
             type:'line',
             stack: '总量',
-            data:[150, 232, 201, 154, 190, 330, 410,169,198,206]
+            data:data3
         },
         {
             name:'水表',
             type:'line',
             stack: '总量',
-            data:[320, 332, 301, 334, 390, 330, 320,128,236,205]
+            data:data4
         }
     ]
         };

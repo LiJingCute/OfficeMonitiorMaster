@@ -1,5 +1,4 @@
 import {get} from '../../http/axios'
-import { config } from '@vue/test-utils';
 
 const state = {
   rtiEQuantity:[],
@@ -10,19 +9,7 @@ const state = {
   rtiEChart2:[],
   rtiEChart3:[],
   rtiWChart:[],
-  rtiTableEl1:[],
-  rtiTableEl2:[],
-  rtiTableEl3:[],
-  rtiTableEl:[],
-  rtiTableEnums1:[],
-  rtiTableEnums2:[],
-  rtiTableEnums3:[],
-  rtiTableEnums:[],
-  rtiTableEv1:[],
-  rtiTableEv2:[],
-  rtiTableEv3:[],
-  rtiTableEv:[],
-  rtiTableWater:[]
+  rtiTable:[],
 }
 
 const mutations = {
@@ -51,19 +38,7 @@ const mutations = {
   },
   getRtiInformation(state,data){
     console.log(data);
-    state.rtiTableEl1 = data.eliang1;
-    state.rtiTableEl2 = data.eliang2;
-    state.rtiTableEl3 = data.eliang3;
-    state.rtiTableEl = data.eliang;
-    state.rtiTableEnums = data.enums;
-    state.rtiTableEnums1 = data.enums1;
-    state.rtiTableEnums2 = data.enums2;
-    state.rtiTableEnums3 = data.enums3;
-    state.rtiTableEv = data.voltage;
-    state.rtiTableEv1 = data.voltage1;
-    state.rtiTableEv2 = data.voltage2;
-    state.rtiTableEv3 = data.voltage3;
-    state.rtiTableWater = data.water;
+    state.rtiTable = data;
   }
 }
 
