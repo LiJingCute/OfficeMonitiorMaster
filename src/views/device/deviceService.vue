@@ -1,109 +1,69 @@
 
-<template>
-  <el-row :gutter="20" type="flex" justify="center">
-    <el-col :span="5">
-      <div class="div01">
-        <div id="myChart01" :style="{width: '200px', height: '200px'}"></div>
-        <div style="padding: 0px;">
-          <span>电表一</span>
-          <div>电压值：{}</div>
-          <div>电流值：{}</div>
-          <div>功率值：{}</div>
-          <div class="demo-input-suffix">
-            电额度：<el-input placeholder="请输入电额度"  v-model="input1"></el-input>
-            电单价：<el-input placeholder="请输入电价"  v-model="input2"></el-input>
-          </div>
-        </div>
-      </div>
-    </el-col>
-    <el-col :span="5">
-      <div class="div02">
-        <div id="myChart02" :style="{width: '200px', height: '200px'}"></div>
-        <div style="padding: 0px;">
-          <span>电表二</span>
-          <div>电压值：{}</div>
-          <div>电流值：{}</div>
-          <div>功率值：{}</div>
-          <div class="demo-input-suffix">
-            电额度：<el-input placeholder="请输入电额度"  v-model="input1"></el-input>
-           
-          </div>
-        </div>
-      </div>
-    </el-col>
-    <el-col :span="5">
-      <div class="div03">
-        <div id="myChart03" :style="{width: '200px', height: '200px'}"></div>
-        <div style="padding: 0px;">
-          <span>电表三</span>
-          <div>电压值：{}</div>
-          <div>电流值：{}</div>
-          <div>功率值：{}</div>
-          <div class="demo-input-suffix">
-            电额度：<el-input placeholder="请输入电额度"  v-model="input1"></el-input>
-          </div>
-        </div>
-      </div>
-    </el-col>
-    <el-col :span="5">
-      <div class="div04">
-        <div id="myChart04" :style="{width: '200px', height: '200px'}"></div>
-        <div style="padding: 0px;">
-          <span>水表</span>
-          <div>用水量{}</div>
-          <div class="demo-input-suffix">
-            水额度：<el-input placeholder="请输入水额度"  v-model="input1"></el-input>
-            水单价：<el-input placeholder="请输入水价"  v-model="input2"></el-input>
-          </div>
-        </div>
-      </div>
-    </el-col>
-  </el-row>
+ <template>
+  <div class="div01">
+      <el-tag>一号电表</el-tag>
+    <el-table :data="tableData01" border style="width: 80% ">
+      <el-table-column prop="date" label="日期" width="180"></el-table-column>
+      <el-table-column prop="enums" label="电压值" width="180"></el-table-column>
+      <el-table-column prop="voltage" label="电流值"></el-table-column>
+      <el-table-column prop="eliang" label="电功率"></el-table-column>
+    </el-table>
+    
+      <el-tag type="success">二号电表</el-tag>
+    
+    <el-table :data="tableData02" border style="width: 80% ">
+      <el-table-column prop="date" label="日期" width="180"></el-table-column>
+      <el-table-column prop="enums" label="电压值" width="180"></el-table-column>
+      <el-table-column prop="voltage" label="电流值"></el-table-column>
+      <el-table-column prop="eliang" label="电功率"></el-table-column>
+    </el-table>
+    
+      <el-tag type="warning">三号电表</el-tag>
+    
+    <el-table :data="tableData03" border style="width: 80% ">
+      <el-table-column prop="date" label="日期" width="180"></el-table-column>
+      <el-table-column prop="enums" label="电压值" width="180"></el-table-column>
+      <el-table-column prop="voltage" label="电流值"></el-table-column>
+      <el-table-column prop="eliang" label="电功率"></el-table-column>
+    </el-table>
+    <div style="margin-top: 20px">
+      <!-- <el-form-item label="电额度">
+        <el-input v-model="formInline.user" placeholder="电额度"></el-input>
+      </el-form-item>
+      <el-form-item> -->
+         <el-input width=40% placeholder="电额度"></el-input>
+        <el-button type="primary" @click="onSubmit">提交</el-button>
+        <el-input width=40% placeholder="电价"></el-input>
+        <el-button type="primary" @click="onSubmit">提交</el-button>
+      <!-- </el-form-item> -->
+    </div>
+      <el-tag>一号水表</el-tag>
+    <el-table :data="tableData04" border style="width: 80% ">
+      <el-table-column prop="date" label="日期"></el-table-column>
+      <el-table-column prop="waternum" label="用水量"></el-table-column>
+    </el-table>
+  </div>
 </template>
 <style>
-.image {
-  width: 100%;
-  display: block;
-}
-.dev01{
-
+.dev01 {
+  border: 10px darkred
+  
 }
 </style>
-
-<script>
+  <script>
 export default {
-  mounted() {
-    let that = this;
-    this.drawLine();
-  },
-  methods: {
-    drawLine() {
-      // 基于准备好的dom，初始化echarts实例
-      let myChart01 = this.$echarts.init(document.getElementById("myChart01"));
-      let myChart02 = this.$echarts.init(document.getElementById("myChart02"));
-      let myChart03 = this.$echarts.init(document.getElementById("myChart03"));
-      let myChart04 = this.$echarts.init(document.getElementById("myChart04"));
-      // 绘制图表
-      var option = {
-        tooltip: {
-          fromatter: "{a} <br/>{b} : {c}%"
-        },
-
-        series: [
-          {
-            name: "占有率",
-            type: "gauge",
-            detail: { formatter: "{value}%" },
-            data: [{ value: 50, name: "完成率" }]
-          }
-        ]
-      };
-
-      myChart01.setOption(option);
-      myChart02.setOption(option);
-      myChart03.setOption(option);
-      myChart04.setOption(option);
-    }
+  data() {
+    return {
+      tableData01: [
+        {
+          date: "2016-05-02",
+          enums: "10",
+          voltage: "10",
+          eliang: "10"
+        }
+      ]
+    };
   }
 };
 </script>
+
