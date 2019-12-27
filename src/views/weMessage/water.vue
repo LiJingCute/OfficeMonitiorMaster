@@ -1,30 +1,33 @@
 <template>
+<div class="water">
   <el-tabs v-model="activeName" @tab-click="handleClick">
     <el-tab-pane label="昨日今日用水量对比" name="first">
         <el-card class="box-card">
-  <div slot="header" class="clearfix">
-    <span :style="center">-----24小时用水数据-----</span>
-  
-  </div>
-  <div class="text item" >
-       <div id="myCharto" :style="{width: '1200px', height: '500px'}" ></div>
-  </div>
-</el-card>
+          <div slot="header" class="clearfix">
+            <h3>24小时用水数据</h3>
+          
+          </div>
+          <div class="text item"  id="backg">
+              <div id="myCharto" :style="{width: '1200px', height: '500px'}" ></div>
+          </div>
+        </el-card>
     </el-tab-pane>
     <el-tab-pane label="最近三月用水量对比" name="second">
         <el-card class="box-card">
-  <div slot="header" class="clearfix">
-    <span>-----最近三月用水数据-----</span>
- 
-  </div>
-  <div class="text item">
-      <div id="myChartt" :style="{width: '700px', height: '400px'}" ></div>
-  </div>
-</el-card>
+          <div slot="header" class="clearfix">
+            <h3>最近三月用水数据</h3>
+        
+          </div>
+          <div class="text item" id="backg">
+              <div id="myChartt" :style="{width: '700px', height: '400px'}" ></div>
+          </div>
+      </el-card>
     </el-tab-pane>
   </el-tabs>
+  </div>
 </template>
 <script>
+import { mapState, mapActions } from 'vuex';
   export default {
     data() {
       return {
@@ -36,12 +39,20 @@
         console.log(tab, event);
       }
     },
+    computed:{
+      ...mapState('water',['xdata','ydata'])
+    },
+    created(){
+      this.getXYdata();
+    },
     mounted () {
       let that = this
       this.drawLine();
-      this.drawLiness();
+      this.drawLiness(this.xdata,this.ydata);
+
     },
     methods:{
+      ...mapActions('water',['getXYdata']),
       drawLine(){
         // 基于准备好的dom，初始化echarts实例
         let myChart = this.$echarts.init(document.getElementById('myCharto'))
@@ -121,93 +132,48 @@
         myChart.setOption(option)
     
     },
-    drawLiness(){
+    drawLiness(xdata,ydata){
         // 基于准备好的dom，初始化echarts实例
         let myChartzz = this.$echarts.init(document.getElementById('myChartt'))
         // 绘制图表
         var option = {
-          title: {
-              text: '近三月用水量分布',
-              subtext: ''
-          },
-          tooltip: {
+          color: ['#3398DB'],
+          tooltip : {
               trigger: 'axis',
-              axisPointer: {
-                  type: 'cross'
+              axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                  type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
               }
           },
-          toolbox: {
-              show: true,
-              feature: {
-                  saveAsImage: {show:true,title:'下载'}
-              }
+          grid: {
+              left: '3%',
+              right: '4%',
+              bottom: '3%',
+              containLabel: true
           },
-          xAxis:  {
-              type: 'category',
-              boundaryGap: false,
-              data:['前俩月','上一月','本月']
-          },
-          yAxis: {
-              type: 'value',
-              axisLabel: {
-                  formatter: '{value} T'
-              },
-              axisPointer: {
-                  snap: true
-              }
-          },
-          visualMap: {
-              show: false,
-              dimension: 0,
-              pieces: [{
-                  lte: 1,
-                  color: 'skyblue'
-              }, {
-                  gt: 2,
-                  lte: 4,
-                  color: 'red'
-              }, {
-                  gt: 1,
-                  lte:1,
-                  color: 'skyblue'
-              }, {
-                  gt: 2,
-                  lte: 7,
-                  color: 'red'
-              }, {
-                  gt: 1,
-                  color: 'skyblue'
-              }]
-          },
-          series: [
+          xAxis : [
               {
-                  name:'上上个月',
+                  type : 'category',
+                  data :xdata,
+                  axisTick: {
+                      alignWithLabel: true
+                  }
+              }
+          ],
+          yAxis : [
+              {
+                  type : 'value'
+              }
+          ],
+          series : [
+              {
+                  name:'直接访问',
                   type:'bar',
-                  smooth: true,
-                  barwidth:'10',
-                  barCategoryGap:'20%',
-                  data: [ 66],
-                  
-              },
-         
-              {
-                name:'上一个月',
-                type:'bar',
-                smooth:true,
-                data:[77],
-
-              }
-              ,
-         
-              {
-                name:'本月',
-                type:'bar',
-                smooth:true,
-                data:[111],
-
+                  barWidth: '60%',
+                  data:ydata
               }
           ]
       };
+
         myChartzz.setOption(option)
     
     }
@@ -221,6 +187,17 @@
 </script>
 
 <style>
+  .water{
+      padding: 1em;
+  }
+  #backg{
+    width: 90%;
+    background-color: white;
+    border-radius: 10px; 
+    float: right;
+    margin-right: 20px;
+    box-shadow: 10px 10px 5px #888888;
+  }
   .text {
     font-size: 14px;
   }
