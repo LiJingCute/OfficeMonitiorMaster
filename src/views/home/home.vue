@@ -8,10 +8,10 @@
     </el-carousel-item>
   </el-carousel>
         <el-row>
-  <el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
-    <el-card :body-style="{ height:'150px' , weight:'150px' ,margin:'10px' }">
+  <el-col :span="8" v-for="(o, index) in 1" :key="o" :offset="index > 0 ? 1 : 0">
+    <el-card :body-style="{ height:'150px' , weight:'100%' ,margin:'10px' }">
     
-      <div style="padding:20px; ">
+      <div style="height:100px ">
         <p>汇总一</p>
         <p>汇总二</p>
         
@@ -24,7 +24,7 @@
     </el-card>
   </el-col>
 </el-row>
-  <el-row>
+  <!-- <el-row>
   <el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
     <el-card :body-style="{ height:'150px' , weight:'40%' ,margin:'10px'}">
     
@@ -37,7 +37,7 @@
       </div>
     </el-card>
   </el-col>
-</el-row>
+</el-row> -->
 </el-collapse>
 </template>
 

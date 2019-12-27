@@ -2,7 +2,10 @@ import {get} from '../../http/axios'
 
 const state = {
    xdata:[],
-   ydata:[]
+   ydata:[],
+   today1:[],
+   yesterday1:[]
+
 }
 
 const mutations = {
@@ -11,13 +14,27 @@ const mutations = {
   },
   setYData(state,data){
     state.ydata = data;
+  },
+  gettoday1(state,data){
+    state.today1 = data;
+  },
+  getyesterday1(state,data){
+    state.yesterday1 = data;
   }
 }
 
 const actions = {
+    async gettoday1({commit},data){
+        let response = await get('/compare/TodayTwentyfourWater?wid=1');
+        commit('today1',response.data)
+      },
+      async getyesterday1({commit},data){
+        let response = await get('/compare/LastTwentyfourWater?wid=1');
+        commit('yesterday1',response.data)
+      },
   async getXYdata({commit},data){
     let response = await get('/compare/ThreeMonthWater?wid=1');
-    console.log(response.data,"aaaaaaaaaa ");
+    console.log(response.data,"aaaaaaaaaa");
     var xdata=[];
     var ydata=[];
     for(var item in response.data){

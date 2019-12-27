@@ -70,28 +70,19 @@
       };
     },
 
-  
-    methods: {
-      handleClick(tab, event) {
-        console.log(tab, event);
-      },
-       computed:{
-      ...mapState('electricty',['xdata','ydata'])
-    },
-        created(){
-      this.getXYdata();
-    },
-      mounted () {
+    mounted () {
       let that = this
       this.drawLineo();
-      this.drawLinet(this.xdata,this.ydata);
+      this.drawLinet();
       this.drawLinee();
       this.drawLineee();
       this.drawLines();
       this.drawLiness();
     },
-     methods:{
-      ...mapActions('water',['getXYdata']),
+    methods: {
+      handleClick(tab, event) {
+        console.log(tab, event);
+      },
       drawLineo(){
         // 基于准备好的dom，初始化echarts实例
         let myChartone = this.$echarts.init(document.getElementById('myCharto'))
@@ -171,8 +162,8 @@
   
       
       
-   
-        drawLinet(xdata,ydata){
+    
+        drawLinet(){
         // 基于准备好的dom，初始化echarts实例
         let myCharttwo = this.$echarts.init(document.getElementById('myChartt'))
         // 绘制图表
@@ -193,7 +184,7 @@
             xAxis : [
                 {
                     type : 'category',
-                    data : xdata,
+                    data : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
                     axisTick: {
                         alignWithLabel: true
                     }
@@ -209,12 +200,12 @@
                     name:'直接访问',
                     type:'bar',
                     barWidth: '60%',
-                    data:ydata
+                    data:[10, 52, 200, 334, 390, 330, 220]
                 }
             ]
         };
         myCharttwo.setOption(option)
-        
+    
     },
 
 
@@ -464,7 +455,7 @@
         myChartzz.setOption(option)
     
     }
-     }
+
    
 
     }

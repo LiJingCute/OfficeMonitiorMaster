@@ -40,20 +40,22 @@ import { mapState, mapActions } from 'vuex';
       }
     },
     computed:{
-      ...mapState('water',['xdata','ydata'])
+      ...mapState('water',['xdata','ydata','today1','yesterday1'])
     },
     created(){
       this.getXYdata();
+      this.today1();
+      this.yesterday1();
     },
     mounted () {
       let that = this
-      this.drawLine();
+      this.drawLine(this.today1,this.yesterday1);
       this.drawLiness(this.xdata,this.ydata);
 
     },
     methods:{
-      ...mapActions('water',['getXYdata']),
-      drawLine(){
+      ...mapActions('water',['getXYdata','today1','yesterday1']),
+      drawLine(today1,yesterday1){
         // 基于准备好的dom，初始化echarts实例
         let myChart = this.$echarts.init(document.getElementById('myCharto'))
         // 绘制图表
@@ -113,16 +115,16 @@ import { mapState, mapActions } from 'vuex';
           },
          series: [
               {
-                  name:'今日电量',
+                  name:'今日水量',
                   type:'line',
                   smooth: true,
-                  data: [141,152, 157, 123, 220, 210,141,152, 157, 123, 220, 130, 210,141,152, 123, 220, 130, 210,141,152, 157, 123,222,333],
+                  data: today1,
 
               },{
-                name:'昨日电量',
+                name:'昨日水量',
                 type:'line',
                 smooth:true,
-                data:[ 123, 220, 130, 210,141,152, 123, 220, 130, 210,141,152, 157, 123,222,333,152, 157, 123, 220, 210,141,152, 157,142],
+                data: yesterday1,
 
               }
           ]
@@ -166,7 +168,7 @@ import { mapState, mapActions } from 'vuex';
           ],
           series : [
               {
-                  name:'直接访问',
+                  name:'月水量',
                   type:'bar',
                   barWidth: '60%',
                   data:ydata
