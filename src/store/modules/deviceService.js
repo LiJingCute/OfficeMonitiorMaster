@@ -55,7 +55,7 @@ const actions = {
     commit('getenergyxinxi03',response.data)
   },
   async findwaterxinxi({commit},data){
-    let response = await get('/cao/water/id?id=1');
+    let response = await get('cao/water/id?id=1');
     commit('getwaterxinxi',response.data)
   },
   async addEID1({commit},data){
