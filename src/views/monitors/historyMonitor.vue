@@ -1,49 +1,41 @@
 <template>
   <div class="history">
-  <div>
     <h1>用电信息</h1>
-  </div>
-     
-
-
-  <div id="gundongtiaoid">
-    <el-date-picker
-        v-model="dateVal"
-        type="daterange"
-        size="small"
-        format="yyyy 年 MM 月 dd 日"
-        value-format="yyyy-MM-dd"
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
-        :picker-options="pickerOption"
-        :default-time="['00:00:00', '23:59:59']">
-    </el-date-picker>
-  
-
-  </div>
-
-  <div id="sec">
-      <el-select v-model="value" placeholder="请选择">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-  </div>
-
-    <div id="buttonid">
-      <el-button type="primary" >点击查询</el-button>
+    {{form}}
+    <div class="title">
+      <div id="year">
+        
+        <div class="block">
+          <el-date-picker
+            v-model="form.timw"
+            type="month"
+            @change="yearChange"
+            placeholder="选择月">
+          </el-date-picker>
+        </div>
+      </div>
+      &nbsp;
+      <div id="dianbiao">
+          <el-select v-model="form.value" placeholder="请选择电表">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+      </div>
+      &nbsp;
+      <div id="btn">
+        <el-button type="primary" @click="testHandler">查询</el-button>
+      </div>
     </div>
-
 
 
   <div id="tableid"> 
     <el-table
     :data="electricity"
-    style="width: 46%; margin-left:25%;margin-top:5%; boder:none"
+    style="width: 100%;"
     border>
     <el-table-column
       prop="eDate"
@@ -66,69 +58,53 @@
     </el-table-column>
   </el-table>
   </div>
-<div>
-  <h1>用水信息</h1>
-</div>
-
-
-
-<div id="gundongtiaoidtwo">
-    <el-date-picker
-        v-model="dateVal"
-        type="daterange"
-        size="small"
-        format="yyyy 年 MM 月 dd 日"
-        value-format="yyyy-MM-dd"
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
-        :picker-options="pickerOption"
-        :default-time="['00:00:00', '23:59:59']">
-    </el-date-picker>
-  
-
-  </div>
-   <div id="buttonid">
-      <el-button type="primary" >点击查询</el-button>
-    </div>
-
-    <div id="tableid"> 
-    <el-table
-    :data="water"
-    style="width: 46%; margin-left:25%;margin-top:5%; boder:none"
-    border>
-    <el-table-column
-      prop="wDate"
-      label="日期"
-      width="180">
-      <template slot-scope="scope">
-          <span>{{scope.row.warndate.slice(0,10)}}</span>
-      </template>
-    </el-table-column>
-    
-    <el-table-column
-      prop="waternum"
-      label="用水量">
-    </el-table-column>
-    <el-table-column
-      prop="wprice"
-      label="总金额">
-    </el-table-column>
-  </el-table>
+  <div>
+    <h1>用水信息</h1>
   </div>
 
-
-
-
-
-
-
-
-
-
-
-
+    <div id="year">
+      <div class="block" id="gundongtiaoidtwo">
+        <el-date-picker
+          v-model="value1"
+          type="month"
+          placeholder="选择月">
+        </el-date-picker>
       </div>
+   </div>
+   &nbsp;
+     <div id="btntwo">
+        <el-button type="primary" @click="testHandler">查询</el-button>
+      </div>
+      
+    <div id="tableid"> 
+        <el-table
+        :data="water"
+        style="width: 100%;"
+        border>
+        <el-table-column
+          prop="wDate"
+          label="日期"
+          width="180">
+        </el-table-column>
+        
+        <el-table-column
+          prop="waternum"
+          label="用水量">
+        </el-table-column>
+        <el-table-column
+          prop="wprice"
+          label="总金额">
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        :page-size="20"
+        :pager-count="11"
+        layout="prev, pager, next"
+        :total="1000">
+      </el-pagination>
+    </div>
+  </div>
+ 
 
    <!-- <el-button type="primary">主要按钮</el-button> -->
    
@@ -137,25 +113,25 @@
 <script>
 import {mapState,mapActions} from 'vuex'
 export default {
-
-
     data() {
       return {
+        form:{},
+        value1:'',
+        value2: '',
+        form2:{
+          month:"",
+          year:"",
+          id:""
+        },
         options: [{
-          value: '选项1',
-          label: '黄金糕'
+          value: '1',
+          label: '电表1'
         }, {
-          value: '选项2',
-          label: '双皮奶'
+          value: '2',
+          label: '电表2'
         }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
+          value: '3',
+          label: '电表3'
         }],
         value: ''
       }
@@ -169,7 +145,20 @@ export default {
         this.findWater();
     },
     methods:{
-      ...mapActions('historyMonitor',['findElectricity','findWater']),
+      ...mapActions('historyMonitor',['findElectricity','findWater','findByidElectricity','findByMY']),
+      testHandler(){
+        this.form2.id=parseInt(this.form.value);
+        console.log(this.form2)
+        this.findByMY(this.form2)
+      },
+      yearChange(v){
+        console.log(v)
+        console.log(v.getFullYear())
+        console.log(v.getMonth()+1)
+        this.form2.year=v.getFullYear();
+        this.form2.month=v.getMonth()+1;
+
+      },
       selectEle:function (row, column, eid) {
             if (eid === "1"){
                 return '电表1';
@@ -180,16 +169,35 @@ export default {
             }
         }
          
-            }
-        
-    
+     }
 }
   
-
 </script>
 
 <style socped>
-
+#btntwo{
+  float: left;
+  margin-left: 50%;
+  margin-top:-2.1%;
+}
+  .history{
+    padding: 1em;
+  }
+ .title{
+   /* height: 100px; */
+   width: 500px;
+   display: flex;
+   /* text-align: center; */
+   margin:0 auto;
+ }
+ .year{
+   margin:0 auto;
+   float: left;
+ }
+ .btn{
+   margin:0 auto;
+   float: left;
+ }
  .el-dropdown-link {
     cursor: pointer;
     color: #409EFF;
@@ -197,7 +205,6 @@ export default {
   .el-icon-arrow-down {
     font-size: 12px;
   }
-
 #sec{
   position: absolute;
   float: left;
@@ -219,27 +226,14 @@ h1 {
   margin-left: 40%;
   height: 100%;
   width: 100%;
-
   
 }
-#buttonid{
-  float: left;
-  position: absolute;
-  margin-left: 65%;
-  margin-top: -2.1%;
-  
-}
-
 
 #tableid{
- 
   margin-right: 20%;
   width: 100%;
   height: 100%;
-  margin-top: 5%;
-
+  margin-top: 1em;
 }
-
-
 
 </style>
