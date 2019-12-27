@@ -1,14 +1,15 @@
 <template>
   <div class="warn">
-    <div class="top" style="margin:1em">正在为您实时监测异常信息......</div>
+    <!-- <div class="top" style="margin:1em">正在为您实时监测异常信息......</div> -->
         <br><br>
-			<p0>今日异常信息为</p0><p1>{{warnToday}}</p1><p0>个</p0><br><br>
-      <p2>在过去30天内已为您查找错误信息为</p2><p1>{{warnlist}}</p1><p2>个</p2>
+			<p3>今日异常信息为</p3><p1>{{warnToday}}</p1><p0>个</p0><br><br>
+      <p4>在过去30天内已为您查找错误信息为</p4><p1>{{warnlist}}</p1><p4>个</p4>
       <div class="right">
            
         <el-button type="primary" @click="dialogTableVisible = true" class="chaxun">查询日志</el-button>
         <el-dialog title="日志详情" :visible.sync="dialogTableVisible">
-          <el-button type="primary" class="xiazai"  @click="bb"  >下载日志</el-button>
+
+         <el-button type="primary" class="xiazai"> <a href="http://localhost:16666/warn/ewarn">下载日志</a></el-button>
             <el-table
               :data="warnTable"
               height="250"
@@ -31,8 +32,11 @@
                 prop="econtent"
                 label="预警信息">
               </el-table-column>
+               
             </el-table>
+           
         </el-dialog>
+        
       </div>
           <br><br><br>
       <!-- {{warnTable}} -->
@@ -55,45 +59,45 @@ import {mapState,mapActions} from 'vuex'
       }
       },
        computed:{
-         ...mapState('warn',['warnlist','warnTable','warnChars','warnToday']),
+         ...mapState('warn',['warnlist','warnTable','warnToday','XData','YData',]),
         
        },
        created(){
             this.findWarnNum();
             this.getWarnMsg();
-            this.getChars();
+         
             this.getToday();
+            this.getXYData();
        },
        mounted () {
-            let that = this
-            console.log(this.warnChars)
-            console.log(this.data.wada)
-            this.drawLine1(this.warnChars);
+           
+            this.drawLine1(this.XData,this.YData);
+            //this.drawLine1([1,2,3],[1,2,3])
         },
         
         methods:{ 
-          ...mapActions('warn',['findWarnNum','getWarnMsg','getChars','getToday']),
-          drawLine1(data){
+          ...mapActions('warn',['findWarnNum','getWarnMsg','getToday','getXYData','downloadTable']),
+          downloadHandle(){
+            this.downloadTable();
+          },
+          drawLine1(XData,YData){
               // 基于准备好的dom，初始化echarts实例
               let myChart1 = this.$echarts.init(document.getElementById('myChart1'))
               // 绘制图表
-              var option1={
-                title:{
-                  text:"预警信息图表"
-                },
-                xAxis: {
-                    type: 'category',
-                    data: data.wada
-                },
-                yAxis: {
-                    type: 'value'
-                },
-                series: [{
-                    data: data.count,
-                    type: 'bar'
-                }]
-            };
-              myChart1.setOption(option1)
+             var option = {
+                  xAxis: {
+                      type: 'category',
+                      data: XData
+                  },
+                  yAxis: {
+                      type: 'value'
+                  },
+                  series: [{
+                      data: YData,
+                      type: 'bar'
+                  }]
+              };
+              myChart1.setOption(option)
           }
         
     }
@@ -140,14 +144,14 @@ body{
 .xiazai{
   margin-bottom: 1em;
 }
-	p0{
+	p3{
 		font-size:20px;
 	}
 	p1{
 		font-size:40px;
 		color: red;
 	}
-	p2{
+	p4{
 		font-size:20px;
 	}
   .chaxun{
@@ -155,5 +159,7 @@ body{
   }
   .xiazai{
     float: right;
+    
   }
+  
 </style>
