@@ -11,7 +11,7 @@ const mutations = {
   },
   setYData(state,data){
     state.ydata = data;
-  },
+  }
 }
 
 const actions = {
@@ -37,11 +37,11 @@ const actions = {
             console.log(response.data[item])
             ydata.push(response.data[item])
         }
-    }
+    } 
     console.log(xdata,ydata)
-    commit('setxdata',xdata)
-    commit('setydata',ydata)
-  },
+    commit('setXData',xdata)
+    commit('setYData',ydata)
+  }
  
 }
 

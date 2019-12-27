@@ -69,25 +69,29 @@
         activeName: 'first'
       };
     },
-    computed:{
-        ...mapState('electricity',['warnlist',]),
-    
+
+  
+    methods: {
+      handleClick(tab, event) {
+        console.log(tab, event);
+      },
+       computed:{
+      ...mapState('electricty',['xdata','ydata'])
     },
-    mounted () {
+        created(){
+      this.getXYdata();
+    },
+      mounted () {
       let that = this
       this.drawLineo();
-      this.drawLinet();
+      this.drawLinet(this.xdata,this.ydata);
       this.drawLinee();
       this.drawLineee();
       this.drawLines();
       this.drawLiness();
     },
-    methods: {
-          ...mapActions('electricity',['findWarnNum',]),
-
-      handleClick(tab, event) {
-        console.log(tab, event);
-      },
+     methods:{
+      ...mapActions('water',['getXYdata']),
       drawLineo(){
         // 基于准备好的dom，初始化echarts实例
         let myChartone = this.$echarts.init(document.getElementById('myCharto'))
@@ -162,13 +166,13 @@
               }
           ]
       };
-      myChartone.setOption(option)
+    myChartone.setOption(option)
      },
   
       
       
-    
-        drawLinet(){
+   
+        drawLinet(xdata,ydata){
         // 基于准备好的dom，初始化echarts实例
         let myCharttwo = this.$echarts.init(document.getElementById('myChartt'))
         // 绘制图表
@@ -189,7 +193,7 @@
             xAxis : [
                 {
                     type : 'category',
-                    data : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    data : xdata,
                     axisTick: {
                         alignWithLabel: true
                     }
@@ -205,12 +209,12 @@
                     name:'直接访问',
                     type:'bar',
                     barWidth: '60%',
-                    data:[10, 52, 200, 334, 390, 330, 220]
+                    data:ydata
                 }
             ]
         };
         myCharttwo.setOption(option)
-    
+        
     },
 
 
@@ -460,7 +464,7 @@
         myChartzz.setOption(option)
     
     }
-
+     }
    
 
     }
