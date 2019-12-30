@@ -1,6 +1,6 @@
 <template>
   <div class="realTime">
-    <div class="title">
+    <div class="titlee">
       <el-row :gutter="12">
         <el-col :span="6">
           <el-card shadow="hover">
@@ -171,37 +171,37 @@ export default {
 </script>
 
 <style scoped>
-body{
+ /* body{
     margin:0;
 		padding:0;
 		font-family:"Microsoft YaHe",微软雅黑;
 		background-color:rebeccapurple;
 		min-width:1200px;
-}
+} */
 
-.title{
+ .titlee{
 	margin-top: 20px;
 	margin-left: 35px;
   margin-right: 15px;
-}
-.chart1{
+} 
+ .chart1{
 	margin-top: 50px;
-}
-#myChart{
+} 
+ #myChart{
 	background-color: white;
 	border-radius: 10px; 
 	float: left;
 	margin-left:35px;
 	box-shadow: 10px 10px 5px #888888;
-}
-.table{
+} 
+ .table{
   width: 40%;
 	background-color: white;
 	border-radius: 10px; 
 	float: right;
 	margin-right: 20px;
 	box-shadow: 10px 10px 5px #888888;
-}
+} 
 .el-card{
 	font-size: 26px;
 	text-align: center;
