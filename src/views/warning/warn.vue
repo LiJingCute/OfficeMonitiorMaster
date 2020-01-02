@@ -2,8 +2,10 @@
   <div class="warn">
     <!-- <div class="top" style="margin:1em">正在为您实时监测异常信息......</div> -->
         <br><br>
-			<p3>今日异常信息为</p3><p1>{{warnToday}}</p1><p0>个</p0><br><br>
-      <p4>在过去30天内已为您查找错误信息为</p4><p1>{{warnlist}}</p1><p4>个</p4>
+      
+			<h3>今日异常信息为</h3><h1>{{warnToday}}</h1><h4>个</h4><br><br>
+      <h3>在过去30天内已为您查找错误信息为</h3><h1>{{warnlist}}</h1><h4>个</h4>
+   
       <div class="right">
            
         <el-button type="primary" @click="dialogTableVisible = true" class="chaxun">查询日志</el-button>
@@ -105,7 +107,8 @@ import {mapState,mapActions} from 'vuex'
 </script>
 <style scoped>
 .warn{
-  padding: 1em;
+  padding: 5em;
+  padding-top: 0em;
 }
 .ell{
   height: 200px;
@@ -144,15 +147,19 @@ body{
 .xiazai{
   margin-bottom: 1em;
 }
-	p3{
+  h3{
 		font-size:20px;
+    display : inline;
+    padding-left: 6%;
 	}
-	p1{
+	h1{
 		font-size:40px;
 		color: red;
+    display : inline;
 	}
-	p4{
+	h4{
 		font-size:20px;
+    display : inline;
 	}
   .chaxun{
     margin-right: 3em;

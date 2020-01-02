@@ -2,7 +2,9 @@ import {get} from '../../http/axios'
 
 const state = {
    xdata:[],
-   ydata:[]
+   ydata:[],
+   tydata:[],
+   hydata:[]
 }
 
 const mutations = {
@@ -12,22 +14,28 @@ const mutations = {
   setYData(state,data){
     state.ydata = data;
   },
+  setTYData(state,data){
+      state.tydata = data;
+  },
+  setHYData(state,data){
+      state.hydata = data;
+  },
 }
 
 const actions = {
   async getXYdata({commit},data){
-    let response = await get('/compare/ThreeMonthEnergy?eid=1');
-    console.log(response.data,"aaaaaaaaaa ");
+    let response = await get('/compare/ThreeMonthEnergy?eid='+data);
+    console.log(response.data,"aaaaaaaaaa");
     var xdata=[];
     var ydata=[];
     for(var item in response.data){
         console.log(item)
-        if(item=="1本月"){
+        if(item==data+"本月"){
             console.log(new Date().getFullYear()+"-"+new Date().getMonth())
             xdata.push(new Date().getFullYear()+"-"+new Date().getMonth())
             console.log(response.data[item])
             ydata.push(response.data[item])
-        }else if(item=="1上一个月"){
+        }else if(item==data+"上一个月"){
             xdata.push(new Date().getFullYear()+"-"+(parseInt(new Date().getMonth())-1))
             console.log(response.data[item])
             ydata.push(response.data[item])
@@ -41,10 +49,19 @@ const actions = {
     console.log(xdata,ydata)
     commit('setXData',xdata)
     commit('setYData',ydata)
-  }
+    return response
+  },
  
-}
 
+async getRealtimeElectricity(context,data){
+  let response = await get('/compare/TodayTwentyfourEnergy?eid='+data);
+  let res=await get('/compare/LastTwentyfourEnergy?eid='+data);
+  // console.log(tydata,hydata)
+  context.commit('setTYData',response.data)
+  context.commit('setHYData',res.data);
+  return response;
+}
+}
 export default {
   namespaced: true,
   state,

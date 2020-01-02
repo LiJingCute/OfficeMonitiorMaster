@@ -1,7 +1,8 @@
 <template>
 <div class="ele">
+
   <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-    <el-tab-pane label="一号电表" name="first">
+    <el-tab-pane label="一号电表" name="1">
       <el-card class="box-card">
         <div slot="header" class="clearfix">  
             <span>一号电表:今日昨日用电量对比</span>   
@@ -21,7 +22,7 @@
         </div>
       </el-card>
     </el-tab-pane>
-    <el-tab-pane label="二号电表" name="second">
+    <el-tab-pane label="二号电表" name="2">
         <el-card class="box-card">
             <div slot="header" class="clearfix">
                 <span>二号电表：今日昨日用电量对比</span>
@@ -40,7 +41,7 @@
             </div>
         </el-card>
     </el-tab-pane>
-    <el-tab-pane label="三号电表" name="third">
+    <el-tab-pane label="三号电表" name="3">
         <el-card class="box-card">
             <div slot="header" class="clearfix" >
                 <span>三号电表：今日昨日用电量对比</span>
@@ -63,27 +64,66 @@
 </div>      
 </template>
 <script>
+import { mapState, mapActions } from 'vuex';
   export default {
     data() {
       return {
-        activeName: 'first'
+        activeName: '1'
       };
     },
-
     mounted () {
       let that = this
-      this.drawLineo();
-      this.drawLinet();
-      this.drawLinee();
-      this.drawLineee();
-      this.drawLines();
-      this.drawLiness();
+      setTimeout(()=>{
+        this.drawLineo(this.tydata,this.hydata);
+        this.drawLinet(this.xdata,this.ydata);
+      })
+      
+    
+      
+    },
+    computed:{
+        ...mapState('electricty',['tydata','hydata','xdata','ydata']),
+    },
+    created(){
+        
+       this.getRealtimeElectricity(1);
+       this.getXYdata(1);
     },
     methods: {
+        ...mapActions('electricty',['getRealtimeElectricity','getXYdata']),
       handleClick(tab, event) {
-        console.log(tab, event);
+        //console.log(tab, event);
+        console.log(parseInt(this.activeName))
+        if(parseInt(this.activeName)==2){
+            this.getRealtimeElectricity(parseInt(this.activeName)).then(()=>{
+                this.drawLinee(this.tydata,this.hydata);
+                
+            })
+            this.getXYdata(parseInt(this.activeName)).then(()=>{
+                this.drawLineee(this.xdata,this.ydata);
+            });
+        }else if(parseInt(this.activeName)==3){
+            this.getRealtimeElectricity(parseInt(this.activeName)).then(()=>{
+                this.drawLines(this.tydata,this.hydata);
+                
+            })
+            this.getXYdata(parseInt(this.activeName)).then(()=>{
+                this.drawLiness(this.xdata,this.ydata);
+                
+            });
+        }else{
+            this.getRealtimeElectricity(parseInt(this.activeName)).then(()=>{
+                this.drawLineo(this.tydata,this.hydata);
+                
+            })
+            this.getXYdata(parseInt(this.activeName)).then(()=>{
+                this.drawLinet(this.xdata,this.ydata);
+
+            });
+        }
+        
       },
-      drawLineo(){
+      drawLineo(tydata,hydata){
         // 基于准备好的dom，初始化echarts实例
         let myChartone = this.$echarts.init(document.getElementById('myCharto'))
         // 绘制图表
@@ -91,6 +131,9 @@
           title: {
               text: '一天用电量分布',
               subtext: ''
+          },
+          legend:{
+              data:['今日电量','昨日电量']
           },
           tooltip: {
               trigger: 'axis',
@@ -118,41 +161,19 @@
                   snap: true
               }
           },
-          visualMap: {
-              show: false,
-              dimension: 0,
-              pieces: [{
-                  lte: 6,
-                  color: 'mediumvioletred'
-              }, {
-                  gt: 6,
-                  lte: 8,
-                  color: 'peachpuff'
-              }, {
-                  gt: 8,
-                  lte: 14,
-                  color: 'mediumvioletred'
-              }, {
-                  gt: 14,
-                  lte: 17,
-                  color: 'peachpuff'
-              }, {
-                  gt: 17,
-                  color: 'mediumvioletred'
-              }]
-          },
+         
           series: [
               {
                   name:'今日电量',
                   type:'line',
                   smooth: true,
-                  data: [141,152, 157, 123, 220, 210,141,152, 157, 123, 220, 130, 210,141,152, 123, 220, 130, 210,141,152, 157, 123,222,333],
+                  data: tydata
 
               },{
                 name:'昨日电量',
                 type:'line',
                 smooth:true,
-                data:[ 123, 220, 130, 210,141,152, 123, 220, 130, 210,141,152, 157, 123,222,333,152, 157, 123, 220, 210,141,152, 157,142],
+                data:hydata
 
               }
           ]
@@ -163,7 +184,7 @@
       
       
     
-        drawLinet(){
+        drawLinet(xdata,ydata){
         // 基于准备好的dom，初始化echarts实例
         let myCharttwo = this.$echarts.init(document.getElementById('myChartt'))
         // 绘制图表
@@ -175,6 +196,7 @@
                     type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
                 }
             },
+          
             grid: {
                 left: '3%',
                 right: '4%',
@@ -184,7 +206,7 @@
             xAxis : [
                 {
                     type : 'category',
-                    data : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    data :xdata,
                     axisTick: {
                         alignWithLabel: true
                     }
@@ -197,10 +219,10 @@
             ],
             series : [
                 {
-                    name:'直接访问',
+                    name:'最近三月对比',
                     type:'bar',
                     barWidth: '60%',
-                    data:[10, 52, 200, 334, 390, 330, 220]
+                    data:ydata
                 }
             ]
         };
@@ -210,7 +232,7 @@
 
 
 
-     drawLinee(){
+     drawLinee(tydata,hydata){
         // 基于准备好的dom，初始化echarts实例
         let myChartec = this.$echarts.init(document.getElementById('myCharte'))
         // 绘制图表
@@ -225,6 +247,10 @@
                   type: 'cross'
               }
           },
+            legend:{
+                data:['今日电量','昨日电量']
+
+            },
           toolbox: {
               show: true,
               feature: {
@@ -245,41 +271,19 @@
                   snap: true
               }
           },
-          visualMap: {
-              show: false,
-              dimension: 0,
-              pieces: [{
-                  lte: 6,
-                  color: 'green'
-              }, {
-                  gt: 6,
-                  lte: 8,
-                  color: 'red'
-              }, {
-                  gt: 8,
-                  lte: 14,
-                  color: 'green'
-              }, {
-                  gt: 14,
-                  lte: 17,
-                  color: 'red'
-              }, {
-                  gt: 17,
-                  color: 'green'
-              }]
-          },
+          
           series: [
               {
-                  name:'用电量',
+                  name:'今日电量',
                   type:'line',
                   smooth: true,
-                  data: [141,123, 153, 123, 220, 410,144,152, 357, 323, 220, 330, 210,141,152, 123, 220, 130, 210,141,152, 157, 123,222,333],
+                  data: tydata
              
               },{
                 name:'昨日电量',
                 type:'line',
                 smooth:true,
-                data:[ 123, 220, 130, 210,141,152, 123, 220, 130, 210,141,152, 157, 123,222,333,152, 157, 123, 220, 210,141,152, 157,142],
+                data:hydata
 
               }
           ]
@@ -288,7 +292,7 @@
      },
 
 
-        drawLineee(){
+        drawLineee(xdata,ydata){
         // 基于准备好的dom，初始化echarts实例
         let myChartee = this.$echarts.init(document.getElementById('myChartee'))
         // 绘制图表
@@ -309,7 +313,7 @@
             xAxis : [
                 {
                     type : 'category',
-                    data : ['前两个月', '前一个月', '本月', ],
+                    data : xdata,
                     axisTick: {
                         alignWithLabel: true
                     }
@@ -325,7 +329,7 @@
                     name:'前两个月',
                     type:'bar',
                     barWidth: '60%',
-                    data:[10, 52, 200,]
+                    data:ydata
                 }
             ],
         };
@@ -335,7 +339,7 @@
 
 
 
-        drawLines(){
+        drawLines(tydata,hydata){
         // 基于准备好的dom，初始化echarts实例
         let myCharts = this.$echarts.init(document.getElementById('myCharts'))
         // 绘制图表
@@ -350,6 +354,10 @@
                   type: 'cross'
               }
           },
+            legend:{
+                data:['今日电量','昨日电量']
+
+            },
           toolbox: {
               show: true,
               feature: {
@@ -370,48 +378,26 @@
                   snap: true
               }
           },
-          visualMap: {
-              show: false,
-              dimension: 0,
-              pieces: [{
-                  lte: 6,
-                  color: 'green'
-              }, {
-                  gt: 6,
-                  lte: 8,
-                  color: 'red'
-              }, {
-                  gt: 8,
-                  lte: 14,
-                  color: 'green'
-              }, {
-                  gt: 14,
-                  lte: 17,
-                  color: 'red'
-              }, {
-                  gt: 17,
-                  color: 'green'
-              }]
-          },
+         
           series: [
               {
-                  name:'今日用电量',
+                  name:'今日电量',
                   type:'line',
                   smooth: true,
-                  data: [141,123, 153, 123, 220, 410,144,152, 357, 323, 220, 330, 210,141,152, 123, 220, 130, 210,141,152, 157, 123,222,333],
+                  data: tydata
         
               },{
-                name:'昨日用电量',
+                name:'昨日电量',
                 type:'line',
                 smooth:true,
-                data:[ 123, 220, 130, 210,141,152, 123, 220, 130, 210,141,152, 157, 123,222,333,152, 157, 123, 220, 210,141,152, 157,142],
+                data:hydata,
 
               }
           ]
       };
         myCharts.setOption(option)
      },
-        drawLiness(){
+        drawLiness(xdata,ydata){
         // 基于准备好的dom，初始化echarts实例
         let myChartzz = this.$echarts.init(document.getElementById('myChartss'))
         // 绘制图表
@@ -432,7 +418,7 @@
             xAxis : [
                 {
                     type : 'category',
-                    data : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    data : xdata,
                     axisTick: {
                         alignWithLabel: true
                     }
@@ -448,7 +434,8 @@
                     name:'直接访问',
                     type:'bar',
                     barWidth: '60%',
-                    data:[10, 52, 200, 334, 390, 330, 220]
+                    data:ydata
+                    
                 }
             ]
         };

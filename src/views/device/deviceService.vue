@@ -2,16 +2,10 @@
  <template>
  
   <div>
+     <h1 style="text-align:center">电表信息</h1>
+    <div >
      
-    <div>
-      <div class="div02">
-        <!-- <div class="div03">
-          电单价/&#165;：
-          <el-input v-model="dianjia" placeholder="插入当月电价" class="input01"></el-input>
-          <el-button type="primary" @click="addDJ">提交</el-button>
-          <el-button type="primary" icon="el-icon-download"><a href="http://localhost:16666/cao/energy/selecteid">电表记录</a></el-button>
-        </div> -->
-      </div>
+      
       <div class="div01">
         <!-- <el-tag>一号电表</el-tag> -->
 
@@ -25,10 +19,11 @@
           电额度/度：
           <el-input v-model="eedu1" placeholder="总电表当月额度" class="input01"></el-input>
           <el-button type="primary" @click="addeedu1">提交</el-button>
+
           <span>电单价/&#165;：</span>
           <el-input v-model="dianjia" placeholder="插入当月电价" class="input01"></el-input>
-          <el-button type="primary" @click="addDJ">提交</el-button>
-          <el-button type="primary" icon="el-icon-download"><a href="http://localhost:16666/cao/energy/selecteid">电表记录</a></el-button>
+          <el-button type="primary" @click="addDJ" st>提交</el-button>
+          <el-button type="primary" icon="el-icon-download" ><a href="http://localhost:16666/cao/energy/selecteid">电表记录</a></el-button>
         </div>
       </div>
 
@@ -44,10 +39,10 @@
         <div style="margin:10px">
           电额度/度：
           <el-input v-model="eedu2" placeholder="2号电表当月额度" class="input01"></el-input>
-          <el-button type="primary" @click="addeedu2">提交</el-button>
+          <el-button type="primary" @click="addeedu2" >提交</el-button>
         </div>
       </div>
-    </div>
+
 
 
 
@@ -68,9 +63,9 @@
         </div>
       </div>
     
+</div>
 
-
-
+<h1 style="text-align:center">水表信息</h1>
     <div class="div01">
       <!-- <el-tag>一号水表</el-tag> -->
       <el-table :data="waterxinxi" border style="width: 100% ">
@@ -87,10 +82,13 @@
         <el-button type="primary" icon="el-icon-download" ><a href="http://localhost:16666/cao/water/selectwid">水表记录</a></el-button>
       </div>
     </div>
+
+
   </div>
 
 </template>
 <style>
+
 .input01 {
   width: 14%;
 }
@@ -100,8 +98,10 @@
 }
 .div01 {
   border: 1px solid #5f89fc;
-  margin: 5px;
+ /* margin-top: 5px;*/
+  /*margin: 5px;*/
   width: 55%;
+  margin:5px auto;
   /* float: left; */
 }
 .div02 {
@@ -141,52 +141,39 @@ export default {
       // console.log("aaaaaaaCCCVVV",this.eedu1)
       this.addEID1(parseInt(this.eedu1));
 
-      // alert("数据提交成功");
+      alert("数据提交成功");
 
     },
     addeedu2(){
       // console.log("aaVVVDSDASDASaa",this.eedu2)
       this.addEID2(parseInt(this.eedu2));
-       // alert("数据提交成功");
+       alert("数据提交成功");
 
     },
     addeedu3(){
       // console.log("aaaaBBBCCC",this.eedu3)
       this.addEID3(parseInt(this.eedu3));
-       // alert("数据提交成功");
+       alert("数据提交成功");
 
     },
     addwedu(){
-      // console.log("aaBB",this.wedu)
+      //console.log("aaBB",this.wedu)
       this.addWID(parseInt(this.wedu))
-       // alert("数据提交成功");
+       alert("数据提交成功");
 
     },
     addDJ(){
-    this.addDianj(parseInt(this.dianjia));
-     // alert("数据提交成功");
+
+    this.addDianj(parseInt(this.dianjia))
+     alert("数据提交成功");
     },
+
     addSJ(){
     this.addShuij(parseInt(this.shuijia));
-     // alert("数据提交成功");
+     alert("数据提交成功");
     },
 
 
-    // selectEl: function(row, column, wid) {
-    //   if (wid === "1") 
-    //     return "水表1";
-     
-    // },
-
-    // selectEle: function(row, column, eid) {
-    //   if (eid === "1") {
-    //     return "电表1";
-    //   } else if (eid === "2") {
-    //     return "电表2";
-    //   } else {
-    //     return "电表3";
-    //   }
-    // }
   }
 };
 </script>

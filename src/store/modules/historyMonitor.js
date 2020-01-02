@@ -23,9 +23,18 @@ const actions = {
 
   async findWater({commit},data){
     let response = await get('/selectWAll');
-    console.log("aaaaaa")
+    // console.log("aaaaaa")
     commit('getWater',response.data)
   },
+  async findByMY({commit},data){
+    let response = await get('/selectEmonth/'+data.year+"/"+data.month+'/'+parseInt(data.value));
+    commit('getElectricity',response.data)
+  },
+async findeWByMy({commit},data){
+  let response = await get('selectWmonth/'+data.year+"/"+data.month);
+  console.log("aaaaa",)
+  commit('getWater',response.data)
+},
  
 }
 export default {
@@ -34,3 +43,4 @@ export default {
   mutations,
   actions
 }
+

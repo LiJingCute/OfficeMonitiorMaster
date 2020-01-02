@@ -74,11 +74,12 @@ const actions = {
     return response;
   },
   async addWID({commit},data){
-    let response = await request.put('/cao/energy/wedu?id=1'+"&wedu="+data);
+    let response = await request.put('/cao/water/wedu?id=1'+"&wedu="+data);
     // commit('getwaterxinxi',response.data)
     return response;
   },
-  async addDinaj({commit},data){
+
+  async addDianj({commit},data){
     let response = await request.put('/cao/energy/eprice');
     // commit('getwaterxinxi',response.data)
     return response;

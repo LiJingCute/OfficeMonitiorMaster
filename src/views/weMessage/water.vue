@@ -1,6 +1,6 @@
 <template>
 <div class="water">
-  <el-tabs v-model="activeName" @tab-click="handleClick">
+  <el-tabs v-model="activeName">
     <el-tab-pane label="昨日今日用水量对比" name="first">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
@@ -40,22 +40,24 @@ import { mapState, mapActions } from 'vuex';
       }
     },
     computed:{
-      ...mapState('water',['xdata','ydata','today1','yesterday1'])
+      ...mapState('water',['xdata','ydata','tydata','hydata'])
     },
     created(){
       this.getXYdata();
-      this.today1();
-      this.yesterday1();
+      this.getRealtimeWater();
     },
     mounted () {
       let that = this
-      this.drawLine(this.today1,this.yesterday1);
+      setTimeout(()=>{
+        
       this.drawLiness(this.xdata,this.ydata);
-
+      this.drawLine(this.tydata,this.hydata)
+      },1000)
+     
     },
     methods:{
-      ...mapActions('water',['getXYdata','today1','yesterday1']),
-      drawLine(today1,yesterday1){
+      ...mapActions('water',['getXYdata','getRealtimeWater']),
+      drawLine(tydata,hydata){
         // 基于准备好的dom，初始化echarts实例
         let myChart = this.$echarts.init(document.getElementById('myCharto'))
         // 绘制图表
@@ -115,16 +117,16 @@ import { mapState, mapActions } from 'vuex';
           },
          series: [
               {
-                  name:'今日水量',
+                  name:'今日电量',
                   type:'line',
                   smooth: true,
-                  data: today1,
+                  data: tydata
 
               },{
-                name:'昨日水量',
+                name:'昨日电量',
                 type:'line',
                 smooth:true,
-                data: yesterday1,
+                data:hydata
 
               }
           ]
@@ -168,7 +170,7 @@ import { mapState, mapActions } from 'vuex';
           ],
           series : [
               {
-                  name:'月水量',
+                  name:'直接访问',
                   type:'bar',
                   barWidth: '60%',
                   data:ydata
