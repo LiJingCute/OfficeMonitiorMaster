@@ -100,7 +100,10 @@ export default {
     },
     mounted () {
       let that = this
-      this.drawLine(this.rtiEChart1,this.rtiEChart2,this.rtiEChart3,this.rtiWChart);
+       setTimeout(()=>{
+              this.drawLine(this.rtiEChart1,this.rtiEChart2,this.rtiEChart3,this.rtiWChart);
+            },500)
+     
     },
     methods:{
       ...mapActions('realTimeMonitors',['getRtiInformation','getRtiEnergy1','getRtiEnergy2','getRtiEnergy3','getRtiWater','getRti']),

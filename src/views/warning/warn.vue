@@ -73,7 +73,10 @@ import {mapState,mapActions} from 'vuex'
        },
        mounted () {
            
-            this.drawLine1(this.XData,this.YData);
+            
+            setTimeout(()=>{
+              this.drawLine1(this.XData,this.YData);
+            },500)
             //this.drawLine1([1,2,3],[1,2,3])
         },
         

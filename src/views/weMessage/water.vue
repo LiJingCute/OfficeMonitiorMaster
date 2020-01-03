@@ -50,9 +50,9 @@ import { mapState, mapActions } from 'vuex';
       let that = this
       setTimeout(()=>{
         
-      this.drawLiness(this.xdata,this.ydata);
-      this.drawLine(this.tydata,this.hydata)
-      },1000)
+          this.drawLiness(this.xdata,this.ydata);
+          this.drawLine(this.tydata,this.hydata)
+      },500)
      
     },
     methods:{
