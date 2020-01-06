@@ -50,9 +50,9 @@ import { mapState, mapActions } from 'vuex';
       let that = this
       setTimeout(()=>{
         
-          this.drawLiness(this.xdata,this.ydata);
-          this.drawLine(this.tydata,this.hydata)
-      },500)
+      this.drawLiness(this.xdata,this.ydata);
+      this.drawLine(this.tydata,this.hydata)
+      },1000)
      
     },
     methods:{
@@ -170,7 +170,7 @@ import { mapState, mapActions } from 'vuex';
           ],
           series : [
               {
-                  name:'直接访问',
+                  name:'最近三月对比',
                   type:'bar',
                   barWidth: '60%',
                   data:ydata

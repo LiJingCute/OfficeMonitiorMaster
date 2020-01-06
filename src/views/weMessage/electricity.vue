@@ -111,7 +111,7 @@ import { mapState, mapActions } from 'vuex';
                 this.drawLiness(this.xdata,this.ydata);
                 
             });
-        }else{
+        }else  if(parseInt(this.activeName)==1){
             this.getRealtimeElectricity(parseInt(this.activeName)).then(()=>{
                 this.drawLineo(this.tydata,this.hydata);
                 
@@ -150,7 +150,7 @@ import { mapState, mapActions } from 'vuex';
           xAxis:  {
               type: 'category',
               boundaryGap: false,
-              data:['0:00','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','8:00','9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00']
+              data:['0:00','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00']
           },
           yAxis: {
               type: 'value',
@@ -260,7 +260,7 @@ import { mapState, mapActions } from 'vuex';
           xAxis:  {
               type: 'category',
               boundaryGap: false,
-              data:['0:00','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','8:00','9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00']
+              data:['0:00','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00']
           },
           yAxis: {
               type: 'value',
@@ -326,7 +326,7 @@ import { mapState, mapActions } from 'vuex';
             ],
             series : [
                 {
-                    name:'前两个月',
+                    name:'最近三月对比',
                     type:'bar',
                     barWidth: '60%',
                     data:ydata
@@ -367,7 +367,7 @@ import { mapState, mapActions } from 'vuex';
           xAxis:  {
               type: 'category',
               boundaryGap: false,
-              data:['0:00','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','8:00','9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00']
+              data:['0:00','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00']
           },
           yAxis: {
               type: 'value',
@@ -390,7 +390,7 @@ import { mapState, mapActions } from 'vuex';
                 name:'昨日电量',
                 type:'line',
                 smooth:true,
-                data:hydata,
+                data:hydata
 
               }
           ]
@@ -431,7 +431,7 @@ import { mapState, mapActions } from 'vuex';
             ],
             series : [
                 {
-                    name:'直接访问',
+                    name:'最近三月对比',
                     type:'bar',
                     barWidth: '60%',
                     data:ydata
