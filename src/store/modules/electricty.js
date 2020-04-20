@@ -28,34 +28,30 @@ const actions = {
     console.log(response.data, "aaaaaaaaaa");
     var xdata = [];
     var ydata = [];
+    var nowYear = new Date().getFullYear();
+    var nowMonth = new Date().getMonth() + 1;
     for (var item in response.data) {
-      console.log(item)
       if (item == data + "本月") {
-        console.log(new Date().getFullYear() + "-" + new Date().getMonth()+1)
-        xdata.push(new Date().getFullYear() + "-" + new Date().getMonth()+1)
-        console.log(response.data[item])
+        xdata.push(nowYear + "-" + nowMonth)
         ydata.push(response.data[item])
       } else if (item == data + "上一个月") {
         if (new Date().getMonth() == 0) {
-          xdata.push(new Date().getFullYear() - 1 + "-" + 12)
+          xdata.push(nowYear-1 + "-" + 12)
         } else {
-          xdata.push(new Date().getFullYear() + "-" + (parseInt(new Date().getMonth()) - 1))
+          xdata.push(nowYear + "-" + (nowMonth-1))
         }
-        console.log(response.data[item])
         ydata.push(response.data[item])
       } else {
-        if (new Date().getMonth() == 0) {
-          xdata.push(new Date().getFullYear() - 1 + "-" + 11)
-        } else if (new Date().getMonth() == 2) {
-          xdata.push(new Date().getFullYear() - 1 + "-" + 10)
+        if (nowMonth-2 == 0) {
+         xdata.push(nowYear - 1 + "-" + 11)
+        } else if (nowMonth == 1) {
+         xdata.push(nowYear - 1 + "-" + 10)
         } else {
-          xdata.push(new Date().getFullYear() + "-" + (parseInt(new Date().getMonth()) - 2))
+         xdata.push(nowYear + "-" + (nowMonth-2))
         }
-        console.log(response.data[item])
         ydata.push(response.data[item])
       }
     }
-    console.log(xdata, ydata)
     commit('setXData', xdata)
     commit('setYData', ydata)
     return response

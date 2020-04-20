@@ -5,6 +5,9 @@ const state = {
   energyxinxi02:[],
   energyxinxi03:[],
   waterxinxi:[],
+  energyjia:[],
+  waterjia:[]
+  
 
 }
 
@@ -32,6 +35,17 @@ const mutations = {
     obj.push(data);
     state.waterxinxi = obj;
   },
+  getenergyjia(state,data){
+    var obj = [];
+    obj.push(data);
+    state.energyjia = obj;
+  },
+  getwaterjia(state,data){
+    var obj = [];
+    obj.push(data);
+    state.waterjia = obj;
+  },
+  
   
 
 
@@ -55,9 +69,18 @@ const actions = {
     commit('getenergyxinxi03',response.data)
   },
   async findwaterxinxi({commit},data){
-    let response = await get('cao/water/id?id=1');
+    let response = await get('/cao/water/id?id=1');
     commit('getwaterxinxi',response.data)
   },
+  async findenergyjia({commit},data){
+    let response = await get('/cao/energy/eprice');
+    commit('getenergyjia',response.data)
+  },
+  async findwaterjia({commit},data){
+    let response = await get('/cao/water/wprice');
+    commit('getwaterjia',response.data)
+  },
+ 
   async addEID1({commit},data){
     let response = await request.put('/cao/energy/eedu?id=1'+"&eedu="+data);
     // commit('getwaterxinxi',response.data)
@@ -80,12 +103,14 @@ const actions = {
   },
 
   async addDianj({commit},data){
-    let response = await request.put('/cao/energy/eprice');
+    console.log(data)
+    let response = await request.put('/cao/energy/eprice?'+"&eprice="+data);
     // commit('getwaterxinxi',response.data)
     return response;
   },
   async addShuij({commit},data){
-    let response = await request.put('/cao/water/wprice');
+    console.log(data)
+    let response = await request.put('/cao/water/wprice?'+"&wprice="+data);
     // commit('getwaterxinxi',response.data)
     return response;
   },

@@ -129,13 +129,16 @@ export default {
         this.findenergyxinxi02();
         this.findenergyxinxi03();
         this.findwaterxinxi();
+        this.findenergyjia();
+        this.findwaterjia();
+        
    },
   computed:{
-        ...mapState("deviceService",["energyxinxi01","energyxinxi02","energyxinxi03","waterxinxi"],)
+        ...mapState("deviceService",["energyxinxi01","energyxinxi02","energyxinxi03","waterxinxi","energyjia","waterjia"],)
       
     },
   methods: {
-    ...mapActions("deviceService", ['findenergyxinxi01','findenergyxinxi02','findenergyxinxi03','findwaterxinxi','addEID1','addEID2','addEID3','addWID','addDianj','addShuij']),
+    ...mapActions("deviceService", ['findenergyxinxi01','findenergyxinxi02','findenergyxinxi03','findwaterxinxi','findenergyjia','findwaterjia','addEID1','addEID2','addEID3','addWID','addDianj','addShuij']),
     // 插入电额度
     addeedu1(){
       // console.log("aaaaaaaCCCVVV",this.eedu1)
@@ -163,12 +166,13 @@ export default {
 
     },
     addDJ(){
-
+console.log("dianjia",this.dianjia)
     this.addDianj(parseInt(this.dianjia))
      alert("数据提交成功");
     },
 
     addSJ(){
+      console.log("shuijia",this.shuijia)
     this.addShuij(parseInt(this.shuijia));
      alert("数据提交成功");
     },

@@ -3,8 +3,8 @@
     <!-- <div class="top" style="margin:1em">正在为您实时监测异常信息......</div> -->
         <br><br>
       
-			<h3>今日异常信息为</h3><h1>{{warnToday}}</h1><h4>个</h4><br><br>
-      <h3>在过去30天内已为您查找错误信息为</h3><h1>{{warnlist}}</h1><h4>个</h4>
+			<h3>今日异常信息为</h3><h1>{{warnToday}}个</h1><br><br>
+      <h3>已为您查找错误信息为</h3><h1>{{warnlist}}个</h1>
    
       <div class="right">
            
